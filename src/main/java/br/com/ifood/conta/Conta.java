@@ -4,8 +4,8 @@ import br.com.ifood.cliente.Cliente;
 
 public class Conta {
     private Cliente cliente;
-    private Float numeroConta;                     //número e agência, um saldo,
-    private Float agencia;                         //cheque especial e necessariamente deve estar ligada
+    private Float numeroConta;                    // TODO: mudar para tipo long
+    private Float agencia;                         // TODO: mudar para tipo int
     private String gerente;
     private Double saldo; // a um funcionário (gerente ou operador)
 
@@ -57,7 +57,8 @@ public class Conta {
         this.saldo = saldo;
     }
 
-public void sacar (Double valor) {
+    // TODO: pensar no OO
+public void debito (Double valor) {
         if (valor <= getSaldo()) ;
     setSaldo(getSaldo() - valor);
     System.out.println("Saque realizado");
