@@ -8,7 +8,6 @@ public class ContaC extends Conta {
         this.chequeEspecial = chequeEspecial;
     }
 
-
     public Double getChequeEspecial() {
         return chequeEspecial;
     }
