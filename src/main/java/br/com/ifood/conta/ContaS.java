@@ -11,12 +11,8 @@ public class ContaS extends Conta {
     }
 
     @Override
-    protected double getBonos(double valor) {
+    protected double getBonus(double valor) {
         return 0;
     }
 
 }
-
-
-
-

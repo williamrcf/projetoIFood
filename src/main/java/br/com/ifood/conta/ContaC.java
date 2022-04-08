@@ -11,14 +11,13 @@ public class ContaC extends ContaE {
     }
 
     @Override
-    protected double getBonos(double valor) {
-        if (valor < 1000) {
+    protected double getBonus(double valor) {
+        if (valor <= 1000) {
             return 0.05D;
-        } else if (valor <= 1000 && valor <= 100000) {
+        } else if (valor > 1000 && valor < 100000) {
             return 0.04D;
-        } else
+        } else {
             return 0.01D;
+        }
     }
 }
-
-

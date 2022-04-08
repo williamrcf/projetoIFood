@@ -17,6 +17,41 @@ public abstract class Conta {
         this.saldo = saldo;
     }
 
+    public void debito(Double valor) {
+        double valorcomtaxa = valor * (1 + getTaxaDebito());
+
+        if (valorcomtaxa <= getSaldo()) {
+            setSaldo(getSaldo() - valorcomtaxa);
+            System.out.println("Saque realizado");
+        } else {
+            System.out.println("Saque não disponivel por falta de saldo");
+        }
+    }
+
+    public void credito(Double valor) {
+        double valorBonos = valor * (1 + getBonus(valor));
+    if (valor > 0) {
+        setSaldo(getSaldo() + valorBonos);
+            System.out.println("Depóstio realizado ");
+        } else {
+            System.out.println("Não é possível depositar esse valor");
+        }
+    }
+
+    public void transfere(Conta contaDestino, double valor) {
+        if (valor <= this.getSaldo()){
+            this.debito(valor);
+            contaDestino.credito(valor);
+            System.out.println ("Transferencia realizada");
+        } else {
+            System.out.println ("Não foi possível realizar por falta de saldo");
+        }
+    }
+
+    protected abstract double getBonus(double valor);
+
+    protected abstract double getTaxaDebito();
+
     public Cliente getCliente() {
         return cliente;
     }
@@ -56,43 +91,4 @@ public abstract class Conta {
     public void setSaldo(Double saldo) {
         this.saldo = saldo;
     }
-
-
-    public void debito(Double valor) {
-        double valorcomtaxa = valor * (1 + getTaxaDebito());
-
-        if (valorcomtaxa <= getSaldo()) {
-            setSaldo(getSaldo() - valorcomtaxa);
-            System.out.println("Saque realizado");
-        } else {
-            System.out.println("Saque não disponivel por falta de saldo");
-        }
-    }
-
-    protected abstract double getTaxaDebito();
-
-    public void credito(Double valor) {
-        double valorBonos = valor * (1 + getBonos(valor));
-    if (valor > 0) {
-        setSaldo(getSaldo() + valorBonos);
-        System.out.println("Depóstio realizado ");
-        } else {
-        System.out.println("Não é possível depositar esse valor");
-        }
-
-    }
-
-    protected abstract double getBonos(double valor);
-
-    public void trasfere (Conta contaDestino, double valor) {
-        if (valor <= this.getSaldo()){
-            setSaldo(getSaldo() - valor);
-            contaDestino.saldo= contaDestino.saldo + valor;
-            System.out.println ("Transferencia realizada");
-        } else {
-            System.out.println ("Não foi possível realizar por falta de saldo");
-        }
-
-    }
-
 }
