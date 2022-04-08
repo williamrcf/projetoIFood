@@ -1,27 +1,24 @@
 package br.com.ifood.conta;
 
-public class ContaC extends Conta {
-    private Double chequeEspecial; // TODO: criar uma outra abstração para conta especial
-
-    public ContaC(String titular, Float numeroConta, Float agencia, String gerente, Double saldo, Double chequeEspecial) {
-        super(titular, numeroConta, agencia, gerente, saldo);
-        this.chequeEspecial = chequeEspecial;
+public class ContaC extends ContaE {
+    public ContaC(String titular, long numeroConta, int agencia, String gerente, double saldo, Double chequeEspecial) {
+        super(titular, numeroConta, agencia, gerente, saldo, chequeEspecial);
     }
 
-    public Double getChequeEspecial() {
-        return chequeEspecial;
+    @Override
+    protected double getTaxaDebito() {
+        return 0.02D;
     }
 
-    public void setChequeEspecial(Double chequeEspecial) {
-        this.chequeEspecial = chequeEspecial;
-    }
-
-    public void debito(Double valor) { // TODO: esse metodo nao será necesario se for utilizado corretamente os conceitos de OO
-        if (valor > 0) {
-            setSaldo(getSaldo() + valor * 0.095);
-            System.out.println("Deposito realizado");
-        } else {
-            System.out.println("Valor indisponível para deposito");
-        }
+    @Override
+    protected double getBonos(double valor) {
+        if (valor < 1000) {
+            return 0.05D;
+        } else if (valor <= 1000 && valor <= 100000) {
+            return 0.04D;
+        } else
+            return 0.01D;
     }
 }
+
+

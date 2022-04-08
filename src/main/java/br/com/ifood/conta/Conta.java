@@ -2,14 +2,14 @@ package br.com.ifood.conta;
 
 import br.com.ifood.cliente.Cliente;
 
-public class Conta {
-    private Cliente cliente;
-    private Float numeroConta;                    // TODO: mudar para tipo long
-    private Float agencia;                         // TODO: mudar para tipo int
+public abstract class Conta {
+    private Cliente cliente = new Cliente();
+    private long numeroConta;
+    private int agencia;
     private String gerente;
-    private Double saldo; // a um funcionário (gerente ou operador)
+    private double saldo; // a um funcionário (gerente ou operador)
 
-    public Conta(String titular, Float numeroConta, Float agencia, String gerente, Double saldo) {
+    public Conta(String titular, long numeroConta, int agencia, String gerente, double saldo) {
         this.cliente = cliente;
         this.numeroConta = numeroConta;
         this.agencia = agencia;
@@ -25,19 +25,19 @@ public class Conta {
         this.cliente = cliente;
     }
 
-    public Float getNumeroConta() {
+    public long getNumeroConta() {
         return numeroConta;
     }
 
-    public void setNumeroConta(Float numeroConta) {
+    public void setNumeroConta(long numeroConta) {
         this.numeroConta = numeroConta;
     }
 
-    public Float getAgencia() {
+    public int getAgencia() {
         return agencia;
     }
 
-    public void setAgencia(Float agencia) {
+    public void setAgencia(int agencia) {
         this.agencia = agencia;
     }
 
@@ -57,12 +57,42 @@ public class Conta {
         this.saldo = saldo;
     }
 
-    // TODO: pensar no OO
-public void debito (Double valor) {
-        if (valor <= getSaldo()) ;
-    setSaldo(getSaldo() - valor);
-    System.out.println("Saque realizado");
-    } else {
-        System.out.println("Não foi possível realizar o saque");
+
+    public void debito(Double valor) {
+        double valorcomtaxa = valor * (1 + getTaxaDebito());
+
+        if (valorcomtaxa <= getSaldo()) {
+            setSaldo(getSaldo() - valorcomtaxa);
+            System.out.println("Saque realizado");
+        } else {
+            System.out.println("Saque não disponivel por falta de saldo");
+        }
     }
+
+    protected abstract double getTaxaDebito();
+
+    public void credito(Double valor) {
+        double valorBonos = valor * (1 + getBonos(valor));
+    if (valor > 0) {
+        setSaldo(getSaldo() + valorBonos);
+        System.out.println("Depóstio realizado ");
+        } else {
+        System.out.println("Não é possível depositar esse valor");
+        }
+
+    }
+
+    protected abstract double getBonos(double valor);
+
+    public void trasfere (Conta contaDestino, double valor) {
+        if (valor <= this.getSaldo()){
+            setSaldo(getSaldo() - valor);
+            contaDestino.saldo= contaDestino.saldo + valor;
+            System.out.println ("Transferencia realizada");
+        } else {
+            System.out.println ("Não foi possível realizar por falta de saldo");
+        }
+
+    }
+
 }
