@@ -1,20 +1,27 @@
 package br.com.ifood.conta;
 
+import br.com.ifood.ComunicadorCorporativo;
 import br.com.ifood.cliente.Cliente;
+import br.com.ifood.domain.ContaCorporativa;
 
-public abstract class Conta {
-    private Cliente cliente = new Cliente();
+import java.math.BigDecimal;
+
+
+public abstract class Conta implements ContaCorporativa {
+    private Cliente cliente;
     private long numeroConta;
     private int agencia;
     private String gerente;
     private double saldo; // a um funcionário (gerente ou operador)
+    private ComunicadorCorporativo comunicador;
 
     public Conta(String titular, long numeroConta, int agencia, String gerente, double saldo) {
-        this.cliente = cliente;
+        this.cliente = new Cliente(titular);
         this.numeroConta = numeroConta;
         this.agencia = agencia;
         this.gerente = gerente;
         this.saldo = saldo;
+        this.comunicador = new ComunicadorCorporativo();
     }
 
     public void debito(Double valor) {
@@ -22,9 +29,10 @@ public abstract class Conta {
 
         if (valorcomtaxa <= getSaldo()) {
             setSaldo(getSaldo() - valorcomtaxa);
+            comunicador.atualizaSaldo(this);
             System.out.println("Saque realizado");
         } else {
-            System.out.println("Saque não disponivel por falta de saldo");
+            System.out.println("");
         }
     }
 
@@ -32,6 +40,7 @@ public abstract class Conta {
         double valorBonos = valor * (1 + getBonus(valor));
     if (valor > 0) {
         setSaldo(getSaldo() + valorBonos);
+            comunicador.atualizaSaldo(this);
             System.out.println("Depóstio realizado ");
         } else {
             System.out.println("Não é possível depositar esse valor");
@@ -43,14 +52,30 @@ public abstract class Conta {
             this.debito(valor);
             contaDestino.credito(valor);
             System.out.println ("Transferencia realizada");
+            comunicador.atualizaSaldo(this);
+            comunicador.atualizaSaldo(contaDestino);
         } else {
             System.out.println ("Não foi possível realizar por falta de saldo");
         }
     }
 
+    public void saqueCheque (double valor) {
+    }
+
     protected abstract double getBonus(double valor);
 
     protected abstract double getTaxaDebito();
+
+
+    @Override
+    public BigDecimal getSaldoAtual() {
+        return new BigDecimal(getSaldo());
+    }
+
+    @Override
+    public String getNumeroDaConta() {
+        return String.valueOf(getAgencia()).concat(String.valueOf(getNumeroConta()));
+    }
 
     public Cliente getCliente() {
         return cliente;
