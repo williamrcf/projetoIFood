@@ -8,6 +8,11 @@ public class ContaS extends Conta {
     }
 
     @Override
+    protected double calculaSaldoDisponivel() {
+        return getSaldo();
+    }
+
+    @Override
     protected double getTaxaDebito() {
         return 0;
     }

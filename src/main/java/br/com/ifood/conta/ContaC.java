@@ -8,6 +8,11 @@ public class ContaC extends ContaE {
     }
 
     @Override
+    protected double calculaSaldoDisponivel() {
+        return getSaldo() + CHEQUE_ESPECIAL;
+    }
+
+    @Override
     protected double getTaxaDebito() {
         return 0.02D;
     }

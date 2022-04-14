@@ -12,7 +12,7 @@ public abstract class Conta implements ContaCorporativa {
     private long numeroConta;
     private int agencia;
     private String gerente;
-    private double saldo; // a um funcionário (gerente ou operador)
+    private double saldo;
     private ComunicadorCorporativo comunicador;
 
     public Conta(String titular, long numeroConta, int agencia, String gerente, double saldo) {
@@ -26,15 +26,17 @@ public abstract class Conta implements ContaCorporativa {
 
     public void debito(Double valor) {
         double valorcomtaxa = valor * (1 + getTaxaDebito());
+        double saldoDisponivel = calculaSaldoDisponivel();
 
-        if (valorcomtaxa <= getSaldo()) {
-            setSaldo(getSaldo() - valorcomtaxa);
+        if (valorcomtaxa <= calculaSaldoDisponivel()) {
+            setSaldo(saldoDisponivel - valorcomtaxa);
             comunicador.atualizaSaldo(this);
             System.out.println("Saque realizado");
         } else {
             System.out.println("");
         }
     }
+    protected abstract double calculaSaldoDisponivel();
 
     public void credito(Double valor) {
         double valorBonos = valor * (1 + getBonus(valor));
@@ -59,8 +61,7 @@ public abstract class Conta implements ContaCorporativa {
         }
     }
 
-    public void saqueCheque (double valor) {
-    }
+
 
     protected abstract double getBonus(double valor);
 
