@@ -1,10 +1,12 @@
 package br.com.ifood.conta;
 
+import br.com.ifood.funcionario.Funcionario;
+
 public class ContaC extends ContaE {
     private static final double CHEQUE_ESPECIAL =500;
 
-    public ContaC(String titular, long numeroConta, int agencia, String gerente, double saldo) {
-        super(titular, numeroConta, agencia, gerente, saldo, CHEQUE_ESPECIAL);
+    public ContaC(String titular, long numeroConta, int agencia, Funcionario funcionario, double saldo) {
+        super(titular, numeroConta, agencia, funcionario, saldo, CHEQUE_ESPECIAL);
     }
 
     @Override
@@ -20,6 +22,6 @@ public class ContaC extends ContaE {
     @Override
     protected double getBonus(double valor) {
 
-        return Bonus.getBonus(valor);
+        return new Bonus().getBonus(valor);
     }
 }

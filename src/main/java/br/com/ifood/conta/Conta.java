@@ -3,6 +3,7 @@ package br.com.ifood.conta;
 import br.com.ifood.ComunicadorCorporativo;
 import br.com.ifood.cliente.Cliente;
 import br.com.ifood.domain.ContaCorporativa;
+import br.com.ifood.funcionario.Funcionario;
 
 import java.math.BigDecimal;
 
@@ -11,15 +12,15 @@ public abstract class Conta implements ContaCorporativa {
     private Cliente cliente;
     private long numeroConta;
     private int agencia;
-    private String gerente;
+    private Funcionario funcionario;
     private double saldo;
     private ComunicadorCorporativo comunicador;
 
-    public Conta(String titular, long numeroConta, int agencia, String gerente, double saldo) {
+    public Conta(String titular, long numeroConta, int agencia, Funcionario funcionario, double saldo) {
         this.cliente = new Cliente(titular);
         this.numeroConta = numeroConta;
         this.agencia = agencia;
-        this.gerente = gerente;
+        this.funcionario = funcionario;
         this.saldo = saldo;
         this.comunicador = new ComunicadorCorporativo();
     }
@@ -61,12 +62,9 @@ public abstract class Conta implements ContaCorporativa {
         }
     }
 
-
-
     protected abstract double getBonus(double valor);
 
     protected abstract double getTaxaDebito();
-
 
     @Override
     public BigDecimal getSaldoAtual() {
@@ -102,12 +100,12 @@ public abstract class Conta implements ContaCorporativa {
         this.agencia = agencia;
     }
 
-    public String getGerente() {
-        return gerente;
+    public Funcionario getFuncionario() {
+        return funcionario;
     }
 
-    public void setGerente(String gerente) {
-        this.gerente = gerente;
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
     }
 
     public Double getSaldo() {
@@ -116,5 +114,12 @@ public abstract class Conta implements ContaCorporativa {
 
     public void setSaldo(Double saldo) {
         this.saldo = saldo;
+    }
+
+    @Override
+    public String toString() {
+        return "Conta{" +
+                "numeroConta=" + numeroConta +
+                '}';
     }
 }
